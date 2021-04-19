@@ -1,0 +1,40 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewreport" content="width-device-width,initial-scale=1.0">
+
+
+</head>
+<body>
+<div class="gallery">
+  <p id="demo"></p>
+ </div>  
+ 
+<script>
+var request = new XMLHttpRequest()
+
+// Open a new connection, using the GET request on the URL endpoint
+
+
+request.onload = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    images = JSON.parse(this.response);
+     image ="";
+var i;
+ for (i=0;i<images.length;i++){
+ image =image+"<img src='"+images[i].url+"'>"
+ }
+ console.log(image)
+document.getElementById("demo").innerHTML = image;
+  }
+};
+request.open('GET', 'https://jsonplaceholder.typicode.com/photos', true)
+
+// Send request
+request.send()
+
+
+</script>
+</body>
+</html>
