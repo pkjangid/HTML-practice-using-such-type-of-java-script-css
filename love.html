@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="love.css"> -->
+  <!-- <script src="love.js"></script> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Love Calculator</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: 0.5s;
+    background-color: #b3b3b3;
+}
+
+/*#b3b3b3 Gray
+#ff8080 red 
+#80ffaa green
+#99c2ff blue
+#ffc266 orange
+#cc99ff violet*/
+
+.container{
+    width: 500px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    background-color: cornsilk;
+}
+.container h2{
+    color:coral;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 1px ;
+}
+
+.container p{
+    text-align: end;
+    font-size: 20px;
+    position: relative;
+    left: 30%;
+    color:dimgray;
+}
+
+.container form{
+    height: 60%;
+    width: 60%;
+    padding: 10px;
+}
+.container  form .form-group{
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.container form .form-group input[type="text"]{
+    width: 100%;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    padding-left: 8px;
+    transition: all 0.5s;
+    font-size: 18px;
+    color: #555;
+    font-weight: 400;
+    letter-spacing: 1px;
+    background-color: cornsilk;
+}
+
+.container form .form-group span{
+    position: relative;
+    top: -32px;
+    left: 8px;
+    width: 100%;
+    background-color: cornsilk; 
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+
+#pbar{
+    width: 90%;
+    display: none;
+    background-color: #777;
+    border: 1px solid #777;
+    height: 20px;
+    border-radius: 20px;
+    padding: 0;
+}
+
+
+#percent{
+    text-align: center;
+    font-size: 18px;
+    width: 0;
+    height: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    margin: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container form .form-group input[type="text"]:focus~span,
+.container form .form-group input[type="text"]:valid~span{
+    top: -52px;
+    color: coral;
+}
+
+.container form .form-group input[type="text"]:focus,
+.container form .form-group input[type="text"]:valid{
+    border: 1px solid coral;
+}
+
+.container form .form-group input:-webkit-autofill{
+    -webkit-background-color: #fff;
+    background-color: #fff;
+    -webkit-text-fill-color: #777;
+    transition: background-color 5000s ease-in-out;
+}
+
+.container #res{
+    color: coral;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+@media(max-width:768px){
+    #rightDisplay,#LeftDisplay{
+        display: none;
+    }
+    form{
+        width: 100%;
+    }
+}
+
+@media(max-height:600px){
+    #topDisplay{
+        position: absolute;
+        top:3%
+    }
+    #bottomDisplay{
+        position: absolute;
+        top: 85%;
+    }
+}
+</style>
+<script>
+    function moveup(x) {
+    document.getElementById(x).focus()
+}
+
+
+function calculatelove() {
+    var boy = document.getElementById('boyname').value
+
+    var girl = document.getElementById('girlname').value
+
+    var fullname = boy + girl
+    fullname = fullname.toLowerCase()
+    fullname = fullname.replace(/ /g, '')
+    var mid = Math.floor(fullname.length / 1)
+    var charfreqarray = []
+
+    for (var i = 0; i < fullname.length; i++) {
+        if (i == mid) {
+            charfreqarray.push(2)
+        }
+        else {
+            charfreqarray.push(1)
+        }
+    }
+    var dup = []
+    var temp = 0
+    var res = ''
+    while (charfreqarray.length > 0) {
+        if (charfreqarray.length == 1) {
+            dup.push(charfreqarray.pop())
+            if (dup.length == 2) {
+                break
+            }
+            else {
+                charfreqarray = dup
+                dup = []
+            }
+        }
+        else {
+            temp = charfreqarray.shift() + charfreqarray.pop()
+            dup.push(temp)
+        }
+    }
+    res = dup.toString()
+    res = res.replace(',', '')
+    if (parseInt(res) < 50) {
+        document.body.style.backgroundColor = "#ff8080"
+        document.getElementById('percent').style.backgroundColor = "#ff8080"
+        document.getElementById('percent').style.color = "black"
+    }
+    else {
+        document.body.style.backgroundColor = "#80ffaa"
+        document.getElementById('percent').style.color = "darkgray"
+        document.getElementById('percent').style.backgroundColor = "#b3ffb3"
+    }
+    if (parseInt(res) > 100) {
+        res = 100
+    }
+    var pbar = document.getElementById('pbar')
+    pbar.style.display = "block"
+
+    var e = document.getElementById('percent')
+
+    var width = 0
+
+    var setintervalid = setInterval(incereasewidth, 10);
+
+    function incereasewidth() {
+        if (width >= parseInt(res)) {
+            clearInterval(setintervalid)
+        }
+        else {
+            width++;
+            e.style.width = width + "%"
+            e.innerHTML = width + "%"
+        }
+    }
+}
+</script>
+</head>
+<body>
+    <div class="container">
+        <h2>Love Percentage Calculator</h2>
+        <p>Only for fun</p>
+        <form>
+            <div class="form-group">
+                <input type="text" id="boyname" required>
+                <span onclick="moveup('boyname')">your name</span>
+            </div>
+            <div class="form-group">
+                <input type="text" id="girlname" required>
+                <span onclick="moveup('girlname')">your crush name</span>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-outline-secondary" onclick="calculatelove()" value="Calculate Love">
+            </div>
+        </form>
+        <div id="pbar">
+            <div id="percent">
+                
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>
